@@ -5,13 +5,13 @@ export const experience = [
 		role: "Web Engineer → Senior Software Engineer",
 		company: "Swiftly",
 		description:
-			"Retail tech. Joined on the Admin app used to configure retailer apps; now I lead the centralized Admin application that orchestrates configuration for a large-scale monolith serving multiple enterprise clients.",
+			"I joined Swiftly working on the Admin app used to configure retailer apps. These days I lead the centralized Admin experience — one big app sitting on top of a very big monolith with a lot of enterprise clients and moving parts.",
 		bullets: [
-			"Own platform-wide UI/UX quality: structured audits of new features, prioritized reports, and fixes agreed directly with engineers before release.",
-			"Architect and maintain the Storybook component library aligned with the design system — on a team with no dedicated design function.",
-			"Built a Claude-based automation adopted by the whole engineering team to standardize frontend practice and cut review cycles.",
-			"Established the frontend testing practice with Vitest and React Testing Library.",
-			"Write the epics and acceptance criteria, prioritize, and negotiate scope with stakeholders.",
+			"Own frontend UI/UX quality across the platform: I review new features, flag what feels off, prioritize fixes, and usually work it out directly with the engineers building them.",
+			"Built and maintain our Storybook component library and keep it aligned with the design system — especially useful on a team without a dedicated design function.",
+			"Built a Claude-based automation that the engineering team now uses to keep frontend work more consistent and make reviews a little less painful.",
+			"Set up the frontend testing practice with Vitest and React Testing Library.",
+			"Write epics and acceptance criteria, prioritize work, and negotiate scope with stakeholders — which, apparently, is also part of being an engineer.",
 		],
 		technologies: [
 			"Next.js",
@@ -31,10 +31,12 @@ export const experience = [
 		location: "Hybrid · BA",
 		role: "Jr → Ssr Software Engineer",
 		company: "Santander Tecnología",
-		description: "Broker app for the bank, plus its internal design system.",
+		description:
+			"Worked on Santander's broker app and its internal design system. This is where I got very into reusable components, frontend architecture, and caring probably too much about tiny UI details.",
 		bullets: [
-			"Shipped features on a micro-frontend architecture (Single SPA + React) alongside UX and Business.",
-			"Built and published reusable components for Flame UI, Santander's internal design system, consumed by several product teams — documented in Storybook, built with TDD.",
+			"Built features in a micro-frontend architecture with Single SPA + React, working closely with UX and Business.",
+			"Built and published reusable components for Flame UI, Santander's internal design system, used by several product teams and documented in Storybook.",
+			"Worked with TDD before I had enough experience to complain about TDD.",
 		],
 		technologies: ["React", "TypeScript", "Single SPA", "TDD"],
 	},
@@ -44,10 +46,10 @@ export const experience = [
 		role: "Full Stack → Frontend Dev",
 		company: "Accenture · AdCap",
 		description:
-			"Where I learned to ship: full stack with Angular, C# .NET Core and SQL Server, then a broker app in React.",
+			"My first real dev job. I started full stack with Angular, C# .NET Core and SQL Server, then slowly made my way toward the frontend, where I very clearly belonged.",
 		bullets: [
 			"Built a trading dashboard with React, Redux and Chart.js.",
-			"Built and published reusable components for Flame UI, Santander's internal design system, consumed by several product teams — documented in Storybook, built with TDD.",
+			"Worked across frontend and backend before deciding that CSS bugs were, somehow, the kind of problem I preferred having.",
 		],
 		technologies: [
 			"Angular",
@@ -64,10 +66,10 @@ export const experience = [
 		role: "Illustrator & tattoo artist",
 		company: "self-employed",
 		description:
-			"Six years of editorial illustration, prints and tattoos — client feedback long before my first Jira ticket.",
+			"Before software, I spent six years doing illustration, prints and tattoos. Turns out client feedback, revisions and impossible deadlines prepared me suspiciously well for tech.",
 		bullets: [
-			"Ran the whole thing solo: briefs, pricing, revisions, deadlines, difficult clients.",
-			"Composition, colour and restraint — the reason I catch the 4px nobody else catches.",
+			"Ran the whole thing myself: briefs, pricing, revisions, deadlines, clients and the occasional creative crisis.",
+			"Learned composition, colour and restraint — probably the reason I still notice the 4px nobody else notices.",
 		],
 		technologies: ["illustration", "tattoo"],
 	},

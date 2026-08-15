@@ -2,42 +2,162 @@
 import { experience } from "../data/experience";
 ---
 
-<section id="path" style="scroll-margin-top:40px;padding:20px 0 90px">
-      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:10px">
-        <h2 style="margin:0;font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#7E8A5E">01 — Path</h2>
-        <span style="flex:1;height:1.5px;background:#22301a1f"></span>
-        <span style="font-family:Caveat,cursive;font-size:19px;color:#E2650E">what I've shipped, and with whom</span>
-      </div>
-      <p style="margin:0 0 30px;font-size:16px;line-height:1.6;color:#4A5840;max-width:60ch;text-wrap:pretty">Seven years across a US retail platform, a bank and a consultancy — plus six earlier ones drawing for clients.</p>
+<section id="path" class="career-path">
+  <header class="section-header">
+    <h2 class="section-kicker">01 — Path</h2>
+    <span class="section-line" aria-hidden="true"></span>
+    <span class="section-note">what I've shipped, and with whom</span>
+  </header>
+  <p class="section-description">Seven years across a US retail platform, a bank and a consultancy — plus six earlier ones drawing for clients.</p>
+  <div class="career-list">
+    {experience.map((job) => (
+      <article class="career-entry" data-reveal="">
+        <div class="career-entry__meta"><div class="career-entry__period">{job.period}</div><div class="career-entry__location">{job.location}</div></div>
+        <div>
+          <div class="career-entry__heading"><h3 class="career-entry__role">{job.role}</h3><span class="career-entry__company">{job.company}</span></div>
+          <p class="career-entry__description">{job.description}</p>
+          <ul class="career-entry__bullets">{job.bullets.map((bullet) => <li><span class="career-entry__dash" aria-hidden="true">—</span><span>{bullet}</span></li>)}</ul>
+          <div class="career-entry__technologies">{job.technologies.map((tech) => <span>{tech}</span>)}</div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
 
-      <div style="display:flex;flex-direction:column">
-        {experience.map((job) => (
-             <div data-reveal="" style="display:grid;grid-template-columns:132px 1fr;gap:26px;padding:26px 0;border-top:1.5px solid #22301a14">
-            <div style="padding-top:4px">
-              <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A9668;line-height:1.6">{job.period}</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#B2B896;margin-top:6px">{job.location}</div>
-            </div>
-            <div>
-              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-                <span style="font-size:19px;font-weight:600;letter-spacing:-.015em">{job.role}</span>
-                <span style="font-size:14.5px;color:#E2650E">{job.company}</span>
-              </div>
-              <p style="margin:9px 0 0;font-size:15.5px;line-height:1.55;color:#4A5840;max-width:62ch;text-wrap:pretty">{job.description}</p>
-              <ul style="margin:14px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
-                {job.bullets.map((bullet) => (
-                  <li style="display:grid;grid-template-columns:16px 1fr;gap:8px;font-size:15px;line-height:1.5;color:#3C4A32;max-width:62ch">
-                        <span style="color:#A8BE3C;font-weight:600">—</span>
-                        <span style="text-wrap:pretty">{bullet}</span>
-                  </li>
-                  ))}
-              </ul>
-              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px">
-                {job.technologies.map((tech) => (
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:4px 9px;border-radius:99px;background:#E4E88C59;color:#42501F">{tech}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+<style>
+    .career-path {
+        scroll-margin-top: 40px;
+        padding: var(--section-spacing);
+        }
+    .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        margin-bottom: 10px;
+    }
+    .section-kicker {
+        margin: 0;
+        color: var(--color-subtle);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .section-line {
+        flex: 1;
+        height: 1.5px;
+        background: rgb(34 48 26 / 12%);
+    }
+    .section-note {
+        color: var(--color-orange);
+        font-family: var(--font-hand);
+        font-size: 19px;
+    }
+    .section-description {
+        max-width: 60ch;
+        margin: 0 0 30px;
+        color: var(--color-muted);
+        font-size: 16px;
+        line-height: 1.6;
+        text-wrap: pretty;
+    }
+    .career-list {
+        display: flex;
+        flex-direction: column;
+    }
+    .career-entry {
+        display: grid;
+        grid-template-columns: 132px 1fr;
+        gap: 26px;
+        padding: 26px 0;
+        border-top: 1.5px solid var(--border-color);
+    }
+    .career-entry__meta {
+        padding-top: 4px;
+    }
+    .career-entry__period, .career-entry__location, .career-entry__technologies {
+        font-family: var(--font-mono);
+    }
+    .career-entry__period {
+        color: var(--color-soft);
+        font-size: 11.5px;
+        line-height: 1.6;
+    }
+    .career-entry__location {
+        margin-top: 6px;
+        color: var(--color-pale);
+        font-size: 10px;
+        letter-spacing: 0.1em; 
+        text-transform: uppercase;
+    }
+    .career-entry__heading {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .career-entry__role {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+    }
+    .career-entry__company {
+        color: var(--color-orange);
+        font-size: 14.5px;
+    }
+    .career-entry__description {
+        max-width: 62ch;
+        margin: 9px 0 0;
+        color: var(--color-muted);
+        font-size: 15.5px;
+        line-height: 1.55;
+        text-wrap: pretty;
+    }
+    .career-entry__bullets {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+    }
+    .career-entry__bullets li {
+        display: grid; 
+        grid-template-columns: 16px 1fr;
+        gap: 8px;
+        max-width: 62ch;
+        color: var(--color-body);
+        font-size: 15px;
+        line-height: 1.5;
+        text-wrap: pretty;
+    }
+    .career-entry__dash {
+        color: var(--color-accent-green);
+        font-weight: 600;
+    }
+    .career-entry__technologies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 14px;
+    }
+    .career-entry__technologies span {
+        padding: 4px 9px;
+        color: var(--color-tag-ink);
+        background: rgb(228 232 140 / 35%);
+        border-radius: 99px;
+        font-size: 10.5px;
+    }
+    @media (max-width: 640px) {
+        .career-entry {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .section-note {
+            display: none;
+        }
+        }
+</style>

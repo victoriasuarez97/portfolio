@@ -49,10 +49,25 @@ a:hover {
 	--color-ink: #22301a;
 	--color-orange: #e2650e;
 	--color-green: #e4e88c;
+	--color-body: #3c4a32;
+	--color-muted: #4a5840;
+	--color-subtle: #7e8a5e;
+	--color-soft: #8a9668;
+	--color-tag-ink: #42501f;
+	--color-pale: #b2b896;
+	--color-accent-green: #a8be3c;
+	--color-equalizer: #7e9a2e;
+	--color-surface: #fffdf4;
+	--border-color: rgb(34 48 26 / 10%);
+	--border-color-strong: rgb(34 48 26 / 18%);
 
 	--font-body: "Work Sans", sans-serif;
 	--font-mono: "JetBrains Mono", monospace;
 	--font-hand: "Caveat", cursive;
+	--section-spacing: 20px 0 90px;
+	--card-radius: 12px;
+	--button-radius: 8px;
+	--lift-transition: 220ms cubic-bezier(0.2, 0.8, 0.3, 1);
 }
 
 .portfolio {
@@ -61,4 +76,10 @@ a:hover {
 	background-size: 100% 32px;
 	display: grid;
 	grid-template-columns: 290px 1fr;
+}
+
+@media (max-width: 800px) {
+	.portfolio {
+		display: block;
+	}
 }

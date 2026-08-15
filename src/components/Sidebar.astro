@@ -1,22 +1,114 @@
-<aside style="position:sticky;top:0;height:100vh;padding:38px 26px 26px;border-right:1.5px solid #22301a1f;display:flex;flex-direction:column;gap:26px">
-    <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7E8A5E">Buenos Aires · AR</div>
-      <div style="font-size:29px;font-weight:600;letter-spacing:-.02em;line-height:1.05;margin-top:10px">Vicky<br>Suarez</div>
-      <div style="font-family:Caveat,cursive;font-size:21px;color:#E2650E;margin-top:4px">frontend &amp; drawings</div>
-    </div>
+---
+import catLounge from "../assets/cat-lounge.png";
+---
 
-    <nav style="display:flex;flex-direction:column;gap:2px;font-size:14.5px">
-      <a href="#path" style="padding:7px 10px;border-radius:6px;color:#22301A" style-hover="background:#E4E88C66;color:#22301A">01 · Path</a>
-      <a href="#work" style="padding:7px 10px;border-radius:6px;color:#22301A" style-hover="background:#E4E88C66">02 · Playground</a>
-      <a href="#about" style="padding:7px 10px;border-radius:6px;color:#22301A" style-hover="background:#E4E88C66">03 · About</a>
-      <a href="#songs" style="padding:7px 10px;border-radius:6px;color:#22301A" style-hover="background:#E4E88C66">04 · Song wall</a>
-      <a href="#hello" style="padding:7px 10px;border-radius:6px;color:#22301A" style-hover="background:#E4E88C66">05 · Say hi</a>
-    </nav>
+<aside class="sidebar">
+  <div>
+    <p class="sidebar__location">Buenos Aires · AR</p>
+    <p class="sidebar__name">Vicky<br />Suarez</p>
+    <p class="sidebar__role">frontend &amp; drawings</p>
+  </div>
 
-    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
-      <div style="transition:transform .35s cubic-bezier(.2,.8,.3,1);will-change:transform">
-        <img src="/src/assets/cat-lounge.png" alt="Zeldita napping, drawn by Vicky" style="width:100%;display:block">
-      </div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.7;color:#7E8A5E">RENTON — SUPERVISOR<br>ZELDITA — QA</div>
-    </div>
+  <nav class="sidebar__nav" aria-label="Main navigation">
+    <a href="#path">01 · Path</a>
+    <a href="#work">02 · Playground</a>
+    <a href="#about">03 · About</a>
+    <a href="#songs">04 · Song wall</a>
+    <a href="#hello">05 · Say hi</a>
+  </nav>
+
+  <div class="sidebar__companions">
+    <div class="sidebar__illustration"><img src={catLounge.src} alt="Zeldita napping, drawn by Vicky" /></div>
+    <p class="sidebar__credits">RENTON — SUPERVISOR<br />ZELDITA — QA</p>
+  </div>
 </aside>
+
+<style>
+  .sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    height: 100vh;
+    padding: 38px 26px 26px;
+    border-right: 1.5px solid rgb(34 48 26 / 12%);
+  }
+  .sidebar__location, .sidebar__credits {
+    color: var(--color-subtle);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+  }
+  .sidebar__location {
+    margin: 0;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+  }
+  .sidebar__name {
+    margin: 10px 0 0;
+    font-size: 29px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .sidebar__role {
+    margin: 4px 0 0;
+    color: var(--color-orange);
+    font-family: var(--font-hand);
+    font-size: 21px;
+  }
+  .sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14.5px;
+  }
+  .sidebar__nav a {
+    padding: 7px 10px;
+    color: var(--color-ink);
+    border-radius: 6px;
+    transition: background 150ms ease;
+  }
+  .sidebar__nav a:hover {
+    color: var(--color-ink);
+    background: rgb(228 232 140 / 40%);
+  }
+  .sidebar__companions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: auto;
+  }
+  .sidebar__illustration {
+    transition: transform 350ms cubic-bezier(0.2, 0.8, 0.3, 1);
+    will-change: transform;
+  }
+  .sidebar__illustration:hover {
+    transform: rotate(2deg) translateY(-3px);
+  }
+  .sidebar__illustration img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .sidebar__credits {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  @media (max-width: 800px) {
+    .sidebar {
+      position: static;
+      height: auto;
+      padding: 24px;
+      border-right: 0;
+      border-bottom: 1.5px solid var(--border-color);
+      }
+      .sidebar__nav {
+        flex-flow: row wrap;
+      }
+      .sidebar__companions {
+        display: none;
+      }
+    }
+</style>

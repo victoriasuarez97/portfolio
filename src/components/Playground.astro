@@ -1,0 +1,134 @@
+---
+import { projects } from "../data/projects";
+---
+
+<section id="work" class="playground">
+  <header class="section-header">
+    <h2 class="section-kicker">02 — Playground</h2>
+    <span class="section-line" aria-hidden="true"></span>
+    <span class="section-note">nobody asked for these</span>
+  </header>
+  <p class="section-description">Challenges, experiments and things I built on a weekend because the idea wouldn't leave me alone. Not client work — that lives above.</p>
+
+  <div class="project-grid">
+    {projects.map((project) => (
+      <a href={project.url} target="_blank" rel="noreferrer" class="project-card" data-reveal="">
+        <div class="project-card__header"><span class="project-card__badge">{project.badge}</span><span class="project-card__arrow" aria-hidden="true">↗</span></div>
+        <h3 class="project-card__title">{project.title}</h3>
+        <p class="project-card__description">{project.description}</p>
+        <div class="project-card__technologies">{project.technologies}</div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+    .playground {
+        scroll-margin-top: 40px;
+        padding: var(--section-spacing);
+    }
+    .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        margin-bottom: 10px;
+    }
+    .section-kicker {
+        margin: 0;
+        color: var(--color-subtle);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .section-line {
+        flex: 1;
+        height: 1.5px;
+        background: rgb(34 48 26 / 12%);
+    }
+    .section-note {
+        color: var(--color-orange);
+        font-family: var(--font-hand);
+        font-size: 19px;
+    }
+    .section-description {
+        max-width: 60ch;
+        margin: 0 0 26px;
+        color: var(--color-muted);
+        font-size: 16px;
+        line-height: 1.6;
+        text-wrap: pretty;
+    }
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+    .project-card {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 24px 26px;
+        color: var(--color-ink);
+        background: var(--color-surface);
+        border: 1.5px solid var(--border-color);
+        border-radius: var(--card-radius);
+        transition: transform var(--lift-transition), box-shadow var(--lift-transition), border-color var(--lift-transition);
+    }
+    .project-card:hover {
+        color: var(--color-ink);
+        transform: translate(-3px, -3px);
+        border-color: var(--color-ink);
+        box-shadow: 5px 5px 0 var(--color-green);
+    }
+    .project-card__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .project-card__badge {
+        padding: 3px 8px;
+        color: var(--color-tag-ink);
+        background: var(--color-green);
+        border-radius: 99px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+    }
+    .project-card__arrow {
+        color: var(--color-orange);
+        font-size: 18px;
+        line-height: 1;
+    }
+    .project-card__title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        line-height: 1.2;
+    }
+    .project-card__description {
+        margin: 0;
+        color: var(--color-muted);
+        font-size: 15px;
+        line-height: 1.55;
+        text-wrap: pretty;
+    }
+    .project-card__technologies {
+        margin-top: auto;
+        padding-top: 6px;
+        color: var(--color-soft);
+        font-family: var(--font-mono);
+        font-size: 11px;
+    }
+    @media (max-width: 700px) {
+        .project-grid {
+            grid-template-columns: 1fr;
+        }
+        .section-note {
+            display: none;
+        }
+    }
+</style>
