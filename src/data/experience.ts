@@ -2,7 +2,7 @@ export const experience = [
 	{
 		period: "Jun 2024 — now",
 		location: "Remote · US",
-		role: "Web Engineer → Senior Software Engineer",
+		role: "Web Engineer → Software Engineer → Senior Software Engineer",
 		company: "Swiftly",
 		description:
 			"I joined Swiftly working on the Admin app used to configure retailer apps. These days I lead the centralized Admin experience — one big app sitting on top of a very big monolith with a lot of enterprise clients and moving parts.",

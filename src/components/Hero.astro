@@ -1,4 +1,32 @@
+---
+import reactLogo from "../assets/react_logo.png";
+import reactLogoHighlights from "../assets/react_logo_highlights.png";
+import nextLogo from "../assets/nextjs_logo.png";
+import nextLogoHighlights from "../assets/next_logo_highlights.png";
+import storybookLogo from "../assets/storybook_logo.png";
+import storybookLogoHighlights from "../assets/storybook_logo_highlights.png";
+import figmaLogo from "../assets/figma_logo.png";
+import figmaLogoHighlights from "../assets/figma_logo_highlights.png";
+import aiLogo from "../assets/ai_logo.png";
+import aiLogoHighlights from "../assets/ai_logo_highlights.png";
+
+const tools = [
+  { name: "React", logo: reactLogo, highlight: reactLogoHighlights, size: "large" },
+  { name: "Next.js", logo: nextLogo, highlight: nextLogoHighlights, size: "large" },
+  { name: "Storybook", logo: storybookLogo, highlight: storybookLogoHighlights },
+  { name: "Figma", logo: figmaLogo, highlight: figmaLogoHighlights },
+  { name: "AI", logo: aiLogo, highlight: aiLogoHighlights },
+];
+---
+
 <section class="hero">
+  <div class="hero__date" aria-label="Today's date">
+    <time data-current-date></time>
+    <svg viewBox="0 0 220 10" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M2 6 C 48 2, 88 8, 132 4 S 188 6, 218 3"></path>
+    </svg>
+  </div>
+
   <h1 class="hero__title" data-reveal="">
     I write code the way I used to draw:<br />
     <span class="hero__highlight">layer by layer
@@ -12,15 +40,68 @@
     Six years as an illustrator and tattooer, then seven building web apps. Now I do both at once: I ship React and TypeScript, audit the UI nobody else is auditing, and sketch the thing before I build it.
   </p>
 
+  <div class="hero__tools" data-reveal="" aria-label="Tools I work with">
+    {tools.map((tool) => (
+      <div class:list={["hero__tool", { "hero__tool--large": tool.size === "large" }]} tabindex="0">
+        <div class="hero__tool-image">
+          <img class="hero__tool-logo hero__tool-logo--default" src={tool.logo.src} alt="" />
+          <img class="hero__tool-logo hero__tool-logo--highlight" src={tool.highlight.src} alt="" />
+        </div>
+      </div>
+    ))}
+  </div>
+
   <div class="hero__actions" data-reveal="">
     <a href="#work" class="hero__button hero__button--primary">See the work</a>
     <a href="#songs" class="hero__button hero__button--secondary">…or leave me a song 🎧</a>
   </div>
 </section>
 
+<script>
+  const date = document.querySelector<HTMLElement>("[data-current-date]");
+
+  if (date) {
+    date.textContent = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date());
+  }
+</script>
+
 <style>
     .hero {
-        padding: 110px 0 90px;
+        position: relative;
+        padding: 90px 0 90px;
+    }
+    .hero__date {
+        position: absolute;
+        top: 24px;
+        right: -150px;
+        width: min(220px, 32vw);
+        color: var(--color-subtle);
+        font-family: var(--font-hand);
+        font-size: 32px;
+        line-height: 1;
+        text-align: center;
+    }
+    .hero__date time {
+        display: block;
+    }
+    .hero__date svg {
+        display: block;
+        width: 100%;
+        height: 10px;
+        margin-top: 7px;
+        overflow: visible;
+    }
+    .hero__date path {
+        fill: none;
+        stroke: var(--color-orange);
+        stroke-width: 1.5;
+        stroke-linecap: round;
     }
     .hero__title {
         margin: 0;
@@ -33,6 +114,10 @@
     .hero__highlight {
         position: relative;
         display: inline-block;
+        font-family: var(--font-hand);
+        font-size: 1.45em;
+        font-weight: 400;
+        letter-spacing: 0.01em;
     }
     .hero__underline {
         position: absolute;
@@ -53,6 +138,63 @@
         font-size: 18.5px;
         line-height: 1.62;
         text-wrap: pretty;
+    }
+    .hero__tools {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(72px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+        width: 600px;
+    }
+    .hero__tool {
+        min-width: 0;
+        color: var(--color-ink);
+        text-align: center;
+        outline: none;
+        cursor: default;
+    }
+    .hero__tool-image {
+        position: relative;
+        display: grid;
+        place-items: center;
+        height: 90px;
+    }
+    .hero__tool-logo {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: opacity 180ms ease, transform 220ms ease;
+    }
+    .hero__tool--large .hero__tool-logo {
+        width: 128%;
+        height: 128%;
+    }
+    .hero__tool-logo--highlight {
+        opacity: 0;
+        transform: scale(0.96);
+        filter: brightness(0) saturate(100%) invert(45%) sepia(95%) saturate(2974%) hue-rotate(359deg) brightness(96%) contrast(92%);
+    }
+    .hero__tool:hover .hero__tool-logo--default,
+    .hero__tool:focus-visible .hero__tool-logo--default {
+        opacity: 0;
+    }
+    .hero__tool:hover .hero__tool-logo--highlight,
+    .hero__tool:focus-visible .hero__tool-logo--highlight {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+    .hero__tool span {
+        display: block;
+        margin-top: 5px;
+        font-family: var(--font-hand);
+        font-size: 17px;
+        line-height: 1;
+        transition: color 180ms ease;
+    }
+    .hero__tool:hover span,
+    .hero__tool:focus-visible span {
+        color: var(--color-orange);
     }
     .hero__actions {
         display: flex;
@@ -86,11 +228,24 @@
     }
     @media (max-width: 640px) {
         .hero {
-            padding: 72px 0 70px;
+            padding: 108px 0 70px;
+        }
+        .hero__date {
+            top: 30px;
+            right: 0;
+            width: min(220px, 75vw);
+            font-size: 17px;
         }
         .hero__actions {
             align-items: stretch;
             flex-direction: column;
+        }
+        .hero__tools {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 10px;
+        }
+        .hero__tool-image {
+            height: 70px;
         }
         .hero__button {
             text-align: center;
