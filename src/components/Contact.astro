@@ -1,0 +1,108 @@
+---
+
+import catWorking from "../assets/cat-working.gif"
+---
+<section id="hello" class="section">
+    <div class="hello_wrapper">
+        <div class="hello_content">
+            <p class="hello_number">05 — Say hi</p>
+            <h2 class="hello_title">Hiring, freelancing, or just want to argue about fonts?</h2>
+            <div class="hello_links">
+                <a href="mailto:victoriasuarez97@gmail.com" class="hello_mail">victoriasuarez97@gmail.com</a>
+                <a href="https://www.linkedin.com/in/victoria-suarez1997/" class="hello_socials">LinkedIn</a>
+                <a href="https://github.com/victoriasuarez97" class="hello_socials">GitHub</a>
+            </div>
+        </div>
+        <div class="hello_image_container">
+          <img src={catWorking.src} alt="A cat in a pink wig, working" style="width:190px;height:190px;object-fit:cover;display:block;border-radius:16px;border:1.5px solid #FBF6E42e">
+        </div>
+    </div>
+</section>
+
+<style>
+    .hello_wrapper {
+        background: #22301A;
+        color: #FBF6E4;
+        border-radius: 18px;
+        padding: 44px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        align-items: flex-end;
+        overflow:hidden;
+    }
+
+    .hello_content {
+        flex: 1 1 300px;
+        min-width: 0;
+    }
+
+    .hello_number {
+        font-family:'JetBrains Mono',monospace;
+        font-size: 11px;
+        letter-spacing:.2em;
+        text-transform: uppercase;
+        color:#A8BE3C;
+    }
+
+    .hello_title {
+        margin: 16px 0 0;
+        font-size: clamp(30px,3.2vw,42px);
+        line-height: 1.08;
+        letter-spacing: -.03em;
+        font-weight: 600;
+        max-width: 17ch;
+        text-wrap: pretty;
+    }
+
+    .hello_links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+    }
+
+    .hello_mail {
+        background: #FBF6E4;
+        color: #22301A;
+        padding: 13px 22px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .hello_mail:hover {
+        background:#E2650E;
+        color:#FBF6E4;
+    }
+
+    .hello_socials {
+        border: 1.5px solid #FBF6E44d;
+        color: #FBF6E4;
+        padding: 13px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .hello_socials:hover {
+        border-color:#E2650E;
+        color:#E2650E;
+    }
+
+    .hello_image_container {
+        flex: 0 1 190px;
+        max-width: 190px;
+        margin:0 auto;
+        animation:bob 5s ease-in-out infinite;
+    }
+
+    .hello_image {
+        width: 190px;
+        height: 190px;
+        object-fit: cover;
+        display: block;
+        border-radius: 16px;
+        border: 1.5px solid #FBF6E42e;
+    }
+
+</style>

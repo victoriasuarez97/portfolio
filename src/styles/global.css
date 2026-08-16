@@ -81,6 +81,11 @@ a:hover {
 	font-family: "Vic Symbols";
 }
 
+.section {
+	scroll-margin-top: 40px;
+	padding: var(--section-spacing);
+}
+
 .section-header {
 	display: flex;
 	align-items: baseline;

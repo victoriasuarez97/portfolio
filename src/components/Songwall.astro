@@ -16,7 +16,7 @@ interface Props {
 const { songs = [] } = Astro.props;
 ---
 
-<section id="songs" class="song-wall">
+<section id="songs" class="section">
   <header class="section-header">
     <h2 class="section-kicker">04 — Song wall</h2>
     <span class="section-line" aria-hidden="true"></span>
@@ -136,11 +136,6 @@ const { songs = [] } = Astro.props;
 </section>
 
 <style>
-  .song-wall {
-    scroll-margin-top: 40px;
-    padding: var(--section-spacing);
-  }
-
   .song-form {
     display: grid;
     gap: 12px;
