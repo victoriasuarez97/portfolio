@@ -16,7 +16,6 @@ import { projects } from "../data/projects";
         <div class="project-card__header"><span class="project-card__badge">{project.badge}</span><span class="project-card__arrow" aria-hidden="true">↗</span></div>
         <h3 class="project-card__title">{project.title}</h3>
         <p class="project-card__description">{project.description}</p>
-        <div class="project-card__technologies">{project.technologies}</div>
       </a>
     ))}
   </div>
@@ -57,11 +56,9 @@ import { projects } from "../data/projects";
     }
     .project-card__badge {
         padding: 3px 8px;
-        color: var(--color-tag-ink);
-        background: var(--color-green);
-        border-radius: 99px;
-        font-family: var(--font-mono);
-        font-size: 10px;
+        color: var(--color-orange);
+        font-family: var(--font-hand);
+        font-size: 25px;
     }
     .project-card__arrow {
         color: var(--color-orange);

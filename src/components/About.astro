@@ -1,0 +1,66 @@
+---
+import catsFighting from "../assets/cat-trio.png"
+---
+
+<section id="about" class="about">
+    <div class="section-header">
+        <h2 class="section-kicker">03 — About</h2>
+        <span class="section-line" aria-hidden="true"></span>
+    </div>
+    <div class="about_container">
+        <div>
+            <p class="about_highlighted_text">I'm 29, I live in Buenos Aires with two cats named Renton and Zeldita, and I've been drawing for as long as I've been solving problems.</p>
+            <p style="about_description">For six years illustration paid my rent — editorial work, tattoos, a lot of gouache-looking cats. That's where I learned composition, patience and how to take feedback without crying. Then I moved into engineering, and it turned out to be the same job with different tools: look at the problem, sketch, iterate, ship.</p>
+            <p style="about_description">Today I lead admin tooling for a US retail platform, keep a Storybook library honest on a team with no designer, and build small AI experiments because they're fun.</p>
+        </div>
+        <div class="about_image_container">
+            <img src={catsFighting.src} alt="Cats, drawn by Vicky" style="width:100%;display:block">
+            <p class="about_image_text">my own illustration, 2022</p>
+        </div>
+    </div>
+</section>
+
+<style>
+  .about {
+    scroll-margin-top: 40px;
+    padding: 20px 0 90px;
+  }
+
+  .about_container {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 44px;
+    align-items: start;
+  }
+
+  .about_highlighted_text {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  .about_description {
+    margin: 20px 0 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .about_image_container {
+    background: var(--color-surface);
+    border:1.5px solid var(--border-color);
+    border-radius: 14px;
+    padding:14px;
+  }
+
+  .about_image_text {
+    font-family: var(--font-hand);
+    font-size: 25px;
+    color: var(--color-subtle);
+    text-align: center;
+    margin-top: 6px;
+  }
+</style>

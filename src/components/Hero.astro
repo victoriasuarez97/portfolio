@@ -2,7 +2,7 @@
 import reactLogo from "../assets/react_logo.png";
 import reactLogoHighlights from "../assets/react_logo_highlights.png";
 import nextLogo from "../assets/nextjs_logo.png";
-import nextLogoHighlights from "../assets/next_logo_highlights.png";
+import nextLogoHighlights from "../assets/nextjs_logo_highlights.png";
 import storybookLogo from "../assets/storybook_logo.png";
 import storybookLogoHighlights from "../assets/storybook_logo_highlights.png";
 import figmaLogo from "../assets/figma_logo.png";
@@ -142,9 +142,9 @@ const tools = [
     .hero__tools {
         display: grid;
         grid-template-columns: repeat(5, minmax(72px, 1fr));
-        gap: 30px;
+        gap: 40px;
         margin-top: 30px;
-        width: 600px;
+        width: 700px;
     }
     .hero__tool {
         min-width: 0;
@@ -157,7 +157,9 @@ const tools = [
         position: relative;
         display: grid;
         place-items: center;
-        height: 90px;
+        height: 95px;
+        width: auto;
+        object-fit: contain;
     }
     .hero__tool-logo {
         position: absolute;
@@ -167,8 +169,8 @@ const tools = [
         transition: opacity 180ms ease, transform 220ms ease;
     }
     .hero__tool--large .hero__tool-logo {
-        width: 128%;
-        height: 128%;
+        height: 200%;
+        margin-right: 20px;
     }
     .hero__tool-logo--highlight {
         opacity: 0;
