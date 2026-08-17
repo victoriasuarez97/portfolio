@@ -9,14 +9,11 @@ interface Song {
   msg: string;
 }
 
-interface Props {
-  songs?: Song[];
-}
-
+interface Props { songs?: Song[]; }
 const { songs = [] } = Astro.props;
 ---
 
-<section id="songs" class="section">
+<section id="songs" class="section song-wall" data-initial-songs={JSON.stringify(songs)}>
   <header class="section-header">
     <h2 class="section-kicker">04 — Song wall</h2>
     <span class="section-line" aria-hidden="true"></span>
@@ -25,361 +22,331 @@ const { songs = [] } = Astro.props;
 
   <p class="section-description">
     Leave me something to listen to while I work. Paste a Spotify link,
-    tell me why, and I'll pin it to the wall.
+    add a line about why, and it goes up on the wall.
   </p>
+  <p class="song-wall__aside-note" aria-hidden="true">psst — this bit draws back ↘</p>
 
   <form class="song-form" id="song-form">
     <div class="song-form__row">
       <label class="sr-only" for="spotify-link">Spotify track URL</label>
-      <input
-        id="spotify-link"
-        name="spotifyLink"
-        type="url"
-        placeholder="https://open.spotify.com/track/…"
-        class="song-input song-input--mono"
-        required
-      />
-
+      <input id="spotify-link" name="spotifyLink" type="url" placeholder="https://open.spotify.com/track/…" class="song-input song-input--mono" required />
       <label class="sr-only" for="submitted-by">Your name</label>
-      <input
-        id="submitted-by"
-        name="submittedBy"
-        type="text"
-        maxlength="28"
-        placeholder="your name (or stay a mystery)"
-        class="song-input"
-      />
+      <input id="submitted-by" name="submittedBy" type="text" maxlength="28" placeholder="your name (or stay a mystery)" class="song-input" />
     </div>
-
-    <label class="sr-only" for="song-message">
-      Why are you recommending this song?
-    </label>
-
-    <input
-      id="song-message"
-      name="message"
-      type="text"
-      maxlength="140"
-      placeholder="why this one? (140 characters, be dramatic)"
-      class="song-input"
-    />
-
+    <label class="sr-only" for="song-message">Why are you recommending this song?</label>
+    <input id="song-message" name="message" type="text" maxlength="140" placeholder="why this one? (140 characters, be dramatic)" class="song-input" />
     <div class="song-form__footer">
-      <button type="submit" class="song-submit">
-        Pin it to the wall
-      </button>
-
+      <button type="submit" class="song-submit">Pin it to the wall</button>
       <p class="song-form__status" id="song-form-status" aria-live="polite"></p>
     </div>
   </form>
 
-  <div class="song-grid">
-    {
-      songs.map((song) => (
-        <article class="song-card">
-          <div class="song-card__main">
-            <img
-              src={song.cover}
-              alt=""
-              width="74"
-              height="74"
-              class="song-card__cover"
-            />
-
-            <div class="song-card__info">
-              <h3 class="song-card__title">{song.title}</h3>
-              <p class="song-card__artist">{song.artist}</p>
-
-              <div class="song-card__submitter">
-                <span class="equalizer" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-
-                <span>{song.who}</span>
-              </div>
-            </div>
+  <div class="song-wall__collection" data-song-collection hidden>
+    <div class="song-wall__now-playing">
+      <div class="record-player">
+        <div class="record-player__copy">
+          <p class="record-player__eyebrow"><span></span> Now playing</p>
+          <h3 class="record-player__title" data-current-title></h3>
+          <p class="record-player__artist" data-current-artist></p>
+          <div class="record-player__meta">
+            <span class="record-player__rpm">33 RPM</span>
+            <span data-current-who></span>
           </div>
-
-          <blockquote class="song-card__message">
-            “{song.msg}”
-          </blockquote>
-
-          <div class="song-card__actions">
-            <button
-              type="button"
-              class="song-card__play"
-              data-spotify-url={song.link}
-            >
-              <span aria-hidden="true">▶</span>
-              Play
-            </button>
-
-            <a
-              href={song.link}
-              target="_blank"
-              rel="noreferrer"
-              class="song-card__spotify-link"
-            >
-              Spotify ↗
-            </a>
+        </div>
+        <div class="turntable" aria-hidden="true">
+          <div class="turntable__record">
+            <span class="turntable__label"></span>
+            <span class="turntable__spindle"></span>
           </div>
-        </article>
-      ))
-    }
+          <div class="turntable__arm">
+            <span class="turntable__pivot"></span>
+            <span class="turntable__needle"></span>
+          </div>
+        </div>
+      </div>
+      <blockquote class="song-wall__message" data-current-message></blockquote>
+      <div class="song-wall__embed" data-current-embed></div>
+    </div>
+
+    <aside class="song-wall__playlist" aria-label="Songs pinned to the wall">
+      <p class="song-wall__side-title">Side A — the wall so far</p>
+      <ol class="song-wall__track-list" data-track-list></ol>
+    </aside>
   </div>
 
-  <button type="button" class="song-wall__more" hidden>
-    See more ↓
-  </button>
+  <p class="song-wall__empty" data-song-empty>The wall is waiting for its first song.</p>
 </section>
 
-<style>
-  .song-form {
-    display: grid;
-    gap: 12px;
-    padding: 22px;
-    background: var(--color-surface);
-    border: 1.5px solid rgb(34 48 26 / 10%);
-    border-radius: 14px;
+<script>
+  interface StoredSong {
+    id: string;
+    link: string;
+    cover: string;
+    title: string;
+    artist: string;
+    who: string;
+    msg: string;
   }
 
-  .song-form__row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+  interface SpotifyController {
+    addListener: (event: "playback_update", listener: (event: { data: { isPaused: boolean } }) => void) => void;
+    destroy: () => void;
   }
 
-  .song-input {
-    width: 100%;
-    padding: 13px 14px;
-    color: var(--color-ink);
-    background: var(--color-paper);
-    border: 1.5px solid rgb(34 48 26 / 15%);
-    border-radius: 8px;
-    outline: none;
-    font: inherit;
-    transition:
-      border-color 150ms ease,
-      box-shadow 150ms ease;
+  interface SpotifyIFrameApi {
+    createController: (
+      element: HTMLElement,
+      options: { uri: string; width: string; height: number },
+      callback: (controller: SpotifyController) => void,
+    ) => void;
   }
 
-  .song-input--mono {
-    font-family: var(--font-mono);
-    font-size: 13px;
-  }
+  const STORAGE_KEY = "portfolio-song-wall";
+  const root = document.querySelector<HTMLElement>(".song-wall");
+  const form = root?.querySelector<HTMLFormElement>("#song-form");
+  const status = root?.querySelector<HTMLElement>("#song-form-status");
+  const collection = root?.querySelector<HTMLElement>("[data-song-collection]");
+  const empty = root?.querySelector<HTMLElement>("[data-song-empty]");
+  const trackList = root?.querySelector<HTMLOListElement>("[data-track-list]");
+  const currentTitle = root?.querySelector<HTMLElement>("[data-current-title]");
+  const currentArtist = root?.querySelector<HTMLElement>("[data-current-artist]");
+  const currentWho = root?.querySelector<HTMLElement>("[data-current-who]");
+  const currentMessage = root?.querySelector<HTMLElement>("[data-current-message]");
+  const currentEmbed = root?.querySelector<HTMLElement>("[data-current-embed]");
+  let activeController: SpotifyController | undefined;
 
-  .song-input:focus-visible {
-    border-color: var(--color-orange);
-    box-shadow: 0 0 0 3px rgb(226 101 14 / 10%);
-  }
+  const spotifyApiReady = new Promise<SpotifyIFrameApi | null>((resolve) => {
+    (window as typeof window & { onSpotifyIframeApiReady?: (api: SpotifyIFrameApi) => void }).onSpotifyIframeApiReady = resolve;
+    const apiScript = document.createElement("script");
+    apiScript.src = "https://open.spotify.com/embed/iframe-api/v1";
+    apiScript.async = true;
+    apiScript.addEventListener("error", () => resolve(null), { once: true });
+    document.head.append(apiScript);
+  });
 
-  .song-form__footer {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
+  const readSongs = (): StoredSong[] => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
+      return Array.isArray(saved) ? saved : [];
+    } catch { return []; }
+  };
 
-  .song-submit,
-  .song-card__play {
-    border: 0;
-    border-radius: 8px;
-    cursor: pointer;
-    font: inherit;
-    font-weight: 500;
-  }
+  const saveSongs = (items: StoredSong[]) => localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  const initialSongs = (() => {
+    try { return JSON.parse(root?.dataset.initialSongs ?? "[]") as StoredSong[]; }
+    catch { return []; }
+  })();
 
-  .song-submit {
-    padding: 12px 20px;
-    color: var(--color-paper);
-    background: var(--color-ink);
-    transition: background 150ms ease;
-  }
+  const allSongs = [...readSongs()].reverse();
+  initialSongs.forEach((song) => {
+    if (!allSongs.some((saved) => saved.link === song.link)) {
+      allSongs.push({ ...song, id: song.id ?? crypto.randomUUID() });
+    }
+  });
+  let selectedId = allSongs[0]?.id;
 
-  .song-submit:hover {
-    background: var(--color-orange);
-  }
+  const getTrackId = (spotifyUrl: string) => {
+    try { return new URL(spotifyUrl).pathname.split("/")[2] ?? ""; }
+    catch { return ""; }
+  };
 
-  .song-form__status {
-    margin: 0;
-    font-size: 13.5px;
-  }
+  const renderCurrentSong = async (song: StoredSong) => {
+    if (!currentTitle || !currentArtist || !currentWho || !currentMessage || !currentEmbed) return;
+    currentTitle.textContent = song.title;
+    currentArtist.textContent = song.artist;
+    currentWho.textContent = song.who;
+    currentMessage.textContent = `“${song.msg}”`;
+    const trackId = getTrackId(song.link);
+    activeController?.destroy();
+    activeController = undefined;
+    root?.classList.remove("song-wall--playing");
+    currentEmbed.replaceChildren();
+    if (!trackId) return;
 
-  .song-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(268px, 100%), 1fr));
-    gap: 14px;
-    margin-top: 20px;
-  }
+    const api = await spotifyApiReady;
+    if (selectedId !== song.id) return;
 
-  .song-card {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    color: var(--color-ink);
-    background: var(--color-surface);
-    border: 1.5px solid rgb(34 48 26 / 10%);
-    border-radius: 14px;
-    transition:
-      transform 220ms cubic-bezier(0.2, 0.8, 0.3, 1),
-      box-shadow 220ms ease,
-      border-color 220ms ease;
-  }
+    if (api) {
+      api.createController(
+        currentEmbed,
+        { uri: `spotify:track:${trackId}`, width: "100%", height: 152 },
+        (controller) => {
+          activeController = controller;
+          controller.addListener("playback_update", (event) => {
+            root?.classList.toggle("song-wall--playing", !event.data.isPaused);
+          });
+        },
+      );
+    } else {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://open.spotify.com/embed/track/${encodeURIComponent(trackId)}?utm_source=generator`;
+      iframe.title = `Listen to ${song.title} on Spotify`;
+      iframe.loading = "lazy";
+      iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+      currentEmbed.append(iframe);
+    }
+  };
 
-  .song-card:hover {
-    transform: translate(-2px, -3px) rotate(-0.6deg);
-    border-color: var(--color-ink);
-    box-shadow: 5px 6px 0 var(--color-green);
-  }
+  const renderWall = () => {
+    const hasSongs = allSongs.length > 0;
+    if (collection) collection.hidden = !hasSongs;
+    if (empty) empty.hidden = hasSongs;
+    if (!hasSongs || !trackList) return;
 
-  .song-card__main {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-  }
+    const selectedSong = allSongs.find((song) => song.id === selectedId) ?? allSongs[0];
+    selectedId = selectedSong.id;
+    renderCurrentSong(selectedSong);
+    trackList.replaceChildren();
 
-  .song-card__cover {
-    flex: none;
-    width: 74px;
-    height: 74px;
-    object-fit: cover;
-    background: var(--color-green);
-    border-radius: 8px;
-  }
+    allSongs.forEach((song, index) => {
+      const item = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "song-wall__track";
+      button.classList.toggle("song-wall__track--active", song.id === selectedId);
+      button.setAttribute("aria-pressed", String(song.id === selectedId));
 
-  .song-card__info {
-    min-width: 0;
-  }
+      const parts = [
+        ["song-wall__track-number", String(index + 1).padStart(2, "0")],
+        ["song-wall__track-title", song.title],
+        ["song-wall__track-dots", ""],
+        ["song-wall__track-artist", song.artist],
+        ["song-wall__track-who", song.who],
+      ];
+      parts.forEach(([className, text]) => {
+        const part = document.createElement("span");
+        part.className = className;
+        part.textContent = text;
+        button.append(part);
+      });
+      button.addEventListener("click", () => { selectedId = song.id; renderWall(); });
+      item.append(button);
+      trackList.append(item);
+    });
+  };
 
-  .song-card__title,
-  .song-card__artist {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  renderWall();
 
-  .song-card__title {
-    margin: 0;
-    font-size: 15.5px;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-  }
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!form || !status) return;
+    const data = new FormData(form);
+    const link = String(data.get("spotifyLink") ?? "").trim();
+    const who = String(data.get("submittedBy") ?? "").trim() || "Anonymous";
+    const msg = String(data.get("message") ?? "").trim() || "No explanation. Just trust me.";
 
-  .song-card__artist {
-    margin: 3px 0 0;
-    color: var(--color-subtle);
-    font-size: 13.5px;
-  }
-
-  .song-card__submitter {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
-    color: var(--color-soft);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .equalizer {
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 11px;
-  }
-
-  .equalizer span {
-    display: block;
-    width: 2.5px;
-    background: var(--color-equalizer);
-  }
-
-  .equalizer span:nth-child(1) {
-    height: 5px;
-  }
-
-  .equalizer span:nth-child(2) {
-    height: 11px;
-  }
-
-  .equalizer span:nth-child(3) {
-    height: 8px;
-  }
-
-  .song-card__message {
-    margin: 0;
-    color: var(--color-body);
-    font-family: var(--font-hand);
-    font-size: 20px;
-    line-height: 1.2;
-    text-wrap: pretty;
-  }
-
-  .song-card__actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: auto;
-    padding-top: 2px;
-  }
-
-  .song-card__play {
-    padding: 8px 12px;
-    color: var(--color-paper);
-    background: var(--color-ink);
-  }
-
-  .song-card__spotify-link {
-    color: var(--color-subtle);
-    font-size: 13px;
-    text-decoration: none;
-  }
-
-  .song-card__spotify-link:hover {
-    color: var(--color-orange);
-  }
-
-  .song-wall__more {
-    margin-top: 18px;
-  }
-
-  .song-wall__footnote {
-    margin-top: 16px;
-    color: var(--color-soft);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    line-height: 1.5;
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  @media (max-width: 640px) {
-    .song-form__row {
-      grid-template-columns: 1fr;
+    let spotifyUrl: URL;
+    try {
+      spotifyUrl = new URL(link);
+      if (spotifyUrl.hostname !== "open.spotify.com" || !spotifyUrl.pathname.startsWith("/track/")) throw new Error();
+    } catch {
+      status.textContent = "Paste a valid Spotify track link.";
+      return;
+    }
+    if (allSongs.some((song) => song.link === spotifyUrl.href)) {
+      status.textContent = "That song is already on the wall.";
+      return;
     }
 
-    .section-note {
-      display: none;
-    }
+    const submit = form.querySelector<HTMLButtonElement>(".song-submit");
+    if (submit) submit.disabled = true;
+    status.textContent = "Pinning it…";
+    let title = "Spotify track";
+    let artist = "Spotify";
+    let cover = "";
+    try {
+      const response = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(spotifyUrl.href)}`);
+      if (response.ok) {
+        const metadata = await response.json();
+        title = metadata.title || title;
+        artist = metadata.author_name || artist;
+        cover = metadata.thumbnail_url || cover;
+      }
+    } catch { /* Keep fallbacks when Spotify metadata is unavailable. */ }
 
-    .song-form__footer {
-      align-items: flex-start;
-      flex-direction: column;
-    }
+    const song: StoredSong = { id: crypto.randomUUID(), link: spotifyUrl.href, cover, title, artist, who, msg };
+    try {
+      saveSongs([...readSongs(), song]);
+      allSongs.unshift(song);
+      selectedId = song.id;
+      renderWall();
+      form.reset();
+      status.textContent = "pinned! thank you <3";
+    } catch {
+      status.textContent = "I couldn't save it in this browser.";
+    } finally { if (submit) submit.disabled = false; }
+  });
+</script>
+
+<style is:global>
+  .song-wall__aside-note { width: max-content; margin: -18px 0 20px 5px; color: var(--color-subtle); font-family: var(--font-hand); font-size: 20px; transform: rotate(-3deg); }
+  .song-form { display: grid; gap: 12px; padding: 22px; background: var(--color-surface); border: 1.5px solid var(--border-color); border-radius: 14px; }
+  .song-form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .song-input { width: 100%; padding: 13px 14px; color: var(--color-ink); background: var(--color-paper); border: 1.5px solid var(--border-color-strong); border-radius: 8px; outline: none; font: inherit; transition: border-color 150ms ease, box-shadow 150ms ease; }
+  .song-input--mono { font-family: var(--font-mono); font-size: 13px; }
+  .song-input:focus-visible { border-color: var(--color-orange); box-shadow: 0 0 0 3px rgb(226 101 14 / 10%); }
+  .song-form__footer { display: flex; align-items: center; gap: 14px; }
+  .song-submit { padding: 12px 20px; color: var(--color-paper); background: var(--color-ink); border: 0; border-radius: 8px; cursor: pointer; font: inherit; font-weight: 600; transition: background 150ms ease, transform 150ms ease; }
+  .song-submit:hover { background: var(--color-orange); transform: translateY(-1px); }
+  .song-submit:disabled { cursor: wait; opacity: .65; }
+  .song-form__status { margin: 0; color: var(--color-orange); font-family: var(--font-hand); font-size: 18px; }
+
+  .song-wall__collection { margin-top: 20px; }
+  .song-wall__collection[hidden], .song-wall__empty[hidden] { display: none; }
+  .song-wall__now-playing { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 1fr); grid-template-areas: "deck embed" "message embed"; gap: 0 22px; align-items: center; }
+  .record-player { grid-area: deck; }
+  .record-player { display: grid; grid-template-columns: minmax(0, 1fr) 170px; min-height: 196px; padding: 20px 16px 18px 20px; overflow: hidden; color: var(--color-paper); background: var(--color-ink); border-radius: 15px; box-shadow: 0 7px 0 rgb(34 48 26 / 12%); }
+  .record-player__copy { display: flex; flex-direction: column; min-width: 0; padding: 22px 0 8px; }
+  .record-player__eyebrow, .record-player__meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: .17em; text-transform: uppercase; }
+  .record-player__eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 13px; color: var(--color-pale); }
+  .record-player__eyebrow span { width: 8px; height: 8px; background: var(--color-orange); border-radius: 50%; box-shadow: 0 0 8px rgb(226 101 14 / 75%); }
+  .record-player__title { margin: 0; overflow: hidden; font-family: var(--font-hand); font-size: 25px; font-weight: 400; line-height: 1.15; text-overflow: ellipsis; white-space: nowrap; }
+  .record-player__artist { margin: 9px 0 12px; overflow: hidden; color: var(--color-pale); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+  .record-player__meta { display: flex; align-items: center; gap: 12px; margin-top: auto; color: var(--color-pale); }
+  .record-player__rpm { padding: 5px 8px; color: var(--color-ink); background: var(--color-green); border-radius: 3px; }
+
+  .turntable { position: relative; display: grid; place-items: center; align-self: center; width: 170px; height: 170px; }
+  .turntable__record { position: relative; display: grid; place-items: center; width: 150px; height: 150px; background: repeating-radial-gradient(circle, transparent 0 3px, rgb(255 255 255 / 5%) 3.5px 4px), radial-gradient(circle, #172013 0 69%, #0e140c 70% 100%); border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 4%), 0 5px 18px rgb(0 0 0 / 28%); animation: spinRecord 4s linear infinite; animation-play-state: paused; }
+  .song-wall--playing .turntable__record { animation-play-state: running; }
+  .turntable__record::before { content: ""; position: absolute; inset: 7px; background: conic-gradient(from 205deg, transparent 0 12%, rgb(255 255 255 / 3%) 16%, rgb(255 255 255 / 10%) 20%, rgb(255 255 255 / 2%) 25%, transparent 31% 62%, rgb(255 255 255 / 6%) 67%, transparent 73%); border-radius: 50%; mix-blend-mode: screen; pointer-events: none; }
+  .turntable__label { position: relative; z-index: 1; width: 53px; height: 53px; background: var(--color-green); border: 2px solid var(--color-orange); border-radius: 50%; box-shadow: inset 0 0 0 4px var(--color-paper); }
+  .turntable__spindle { position: absolute; z-index: 2; width: 9px; height: 9px; background: var(--color-ink); border-radius: 50%; }
+  .turntable__arm { position: absolute; top: 9px; right: 7px; width: 8px; height: 94px; background: #d7d3b5; border-radius: 8px; box-shadow: 1px 1px 2px rgb(0 0 0 / 35%); transform: rotate(32deg); transform-origin: 50% 8px; }
+  .turntable__arm::after { content: ""; position: absolute; top: 82px; left: 0; width: 8px; height: 31px; background: #d7d3b5; border-radius: 4px 4px 7px 7px; box-shadow: 1px 1px 2px rgb(0 0 0 / 30%); transform: rotate(27deg); transform-origin: 4px 4px; }
+  .turntable__pivot { position: absolute; top: -4px; left: -6px; width: 20px; height: 20px; background: #70795a; border: 2px solid #ddd9b9; border-radius: 50%; }
+  .turntable__needle { position: absolute; z-index: 1; bottom: -27px; left: -12px; width: 17px; height: 13px; background: var(--color-orange); border-radius: 3px 2px 5px 2px; box-shadow: 1px 2px 3px rgb(0 0 0 / 28%); transform: rotate(27deg); }
+
+  .song-wall__message { grid-area: message; min-height: 38px; margin: 13px 4px 8px; color: var(--color-orange); font-family: var(--font-hand); font-size: 21px; line-height: 1.2; transform: rotate(-1deg); }
+  .song-wall__embed { grid-area: embed; overflow: hidden; height: 152px; background: #191919; border-radius: 13px; }
+  .song-wall__embed iframe { width: 100%; height: 152px; border: 0; }
+  .song-wall__playlist { width: 100%; margin-top: 18px; padding: 16px 10px 12px; background: var(--color-surface); border: 1.5px solid var(--border-color); border-radius: 15px; }
+  .song-wall__side-title { margin: 0 8px 8px; color: var(--color-soft); font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+  .song-wall__track-list { display: grid; gap: 3px; padding: 0; margin: 0; list-style: none; }
+  .song-wall__track { display: grid; grid-template-columns: 28px minmax(160px, 1.8fr) minmax(30px, 1fr) minmax(110px, 1fr) minmax(90px, .7fr); align-items: center; width: 100%; gap: 10px; padding: 10px 8px; color: var(--color-ink); background: transparent; border: 0; border-radius: 9px; cursor: pointer; text-align: left; transition: background 160ms ease; }
+  .song-wall__track:hover { background: rgb(228 232 140 / 38%); }
+  .song-wall__track--active { background: var(--color-green); }
+  .song-wall__track-number, .song-wall__track-who { color: var(--color-soft); font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; }
+  .song-wall__track-title, .song-wall__track-artist, .song-wall__track-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .song-wall__track-title { font-family: var(--font-hand); font-size: 19px; }
+  .song-wall__track-dots { height: 1px; border-top: 1px dotted var(--color-pale); }
+  .song-wall__track-artist { color: var(--color-subtle); font-size: 12px; }
+  .song-wall__empty { margin: 20px 0 0; padding: 30px; color: var(--color-subtle); background: var(--color-surface); border: 1.5px dashed var(--border-color-strong); border-radius: 14px; font-family: var(--font-hand); font-size: 22px; text-align: center; }
+  .song-wall__footnote { margin: 16px 0 0; color: var(--color-soft); font-family: var(--font-mono); font-size: 10px; line-height: 1.45; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+  @keyframes spinRecord { to { transform: rotate(360deg); } }
+  @media (max-width: 820px) {
+    .song-wall__now-playing { grid-template-columns: 1fr; grid-template-areas: "deck" "message" "embed"; gap: 0; }
+    .song-wall__track { grid-template-columns: 24px minmax(100px, 1.5fr) minmax(20px, .5fr) minmax(80px, 1fr) minmax(60px, .7fr); gap: 7px; }
+  }
+  @media (max-width: 560px) {
+    .song-form__row { grid-template-columns: 1fr; }
+    .song-form__footer { align-items: flex-start; flex-direction: column; }
+    .record-player { grid-template-columns: minmax(0, 1fr) 125px; min-height: 164px; padding: 14px; }
+    .turntable { width: 125px; height: 135px; }
+    .turntable__record { width: 116px; height: 116px; }
+    .turntable__arm { right: 1px; height: 73px; }
+    .song-wall__track { grid-template-columns: 22px minmax(0, 1fr) 20px minmax(55px, .7fr); }
+    .song-wall__track-who, .section-note { display: none; }
   }
 </style>
