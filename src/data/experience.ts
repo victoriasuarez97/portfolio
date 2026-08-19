@@ -46,7 +46,7 @@ export const experience = [
 		role: "Full Stack → Frontend Dev",
 		company: "Accenture · AdCap",
 		description:
-			"My first real dev job. I started full stack with Angular, C# .NET Core and SQL Server, then slowly made my way toward the frontend, where I very clearly belonged.",
+			"My first real dev job. I started full stack with Angular, C# .NET Core and SQL Server, then slowly made my way toward the frontend.",
 		bullets: [
 			"Built a trading dashboard with React, Redux and Chart.js.",
 			"Worked across frontend and backend before deciding that CSS bugs were, somehow, the kind of problem I preferred having.",
