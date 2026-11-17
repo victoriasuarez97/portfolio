@@ -14,7 +14,7 @@ import catWorking from "../assets/cat-working.gif"
             </div>
         </div>
         <div class="hello_image_container">
-          <img src={catWorking.src} alt="A cat in a pink wig, working" style="width:190px;height:190px;object-fit:cover;display:block;border-radius:16px;border:1.5px solid #FBF6E42e">
+          <img src={catWorking.src} alt="A cat in a pink wig, working" class="hello_image" width="190" height="190" loading="lazy">
         </div>
     </div>
 </section>
@@ -63,6 +63,8 @@ import catWorking from "../assets/cat-working.gif"
     }
 
     .hello_mail {
+        max-width: 100%;
+        overflow-wrap: anywhere;
         background: #FBF6E4;
         color: #22301A;
         padding: 13px 22px;
@@ -98,11 +100,28 @@ import catWorking from "../assets/cat-working.gif"
 
     .hello_image {
         width: 190px;
-        height: 190px;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 1;
         object-fit: cover;
         display: block;
         border-radius: 16px;
         border: 1.5px solid #FBF6E42e;
     }
 
+    @media (max-width: 640px) {
+        .hello_wrapper {
+            padding: 28px 20px;
+        }
+
+        .hello_mail {
+            padding-inline: 14px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hello_image_container {
+            animation: none;
+        }
+    }
 </style>

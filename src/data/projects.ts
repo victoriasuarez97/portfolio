@@ -11,6 +11,6 @@ export const projects = [
 		description:
 			"The thing you are about to use: paste a Spotify link, get a card with a real cover art from the public endpoint.",
 		badge: "experiment",
-		url: "#",
+		url: "#songs",
 	},
 ];

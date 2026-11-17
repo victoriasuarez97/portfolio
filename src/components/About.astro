@@ -11,8 +11,8 @@ import catLounge from "../assets/cat-lounge.png";
     <div class="about_container">
         <div>
             <p class="about_highlighted_text">I'm 29, I live in Buenos Aires with two cats named Renton and Zeldita, and I've been drawing for as long as I've been solving problems.</p>
-            <p style="about_description">For six years illustration paid my rent — editorial work, tattoos, a lot of gouache-looking cats. That's where I learned composition, patience and how to take feedback without crying. Then I moved into engineering, and it turned out to be the same job with different tools: look at the problem, sketch, iterate, ship.</p>
-            <p style="about_description">Today I lead admin tooling for a US retail platform, keep a Storybook library honest on a team with no designer, and build small AI experiments because they're fun.</p>
+            <p class="about_description">For six years illustration paid my rent — editorial work, tattoos, a lot of gouache-looking cats. That's where I learned composition, patience and how to take feedback without crying. Then I moved into engineering, and it turned out to be the same job with different tools: look at the problem, sketch, iterate, ship.</p>
+            <p class="about_description">Today I lead admin tooling for a US retail platform, keep a Storybook library honest on a team with no designer, and build small AI experiments because they're fun.</p>
         </div>
         <div class="about_image_container">
             <Image src={catLounge} alt="Zeldita taking a nap" style="width:100%;height:auto;display:block" width={420} densities={[1, 2]} />
@@ -24,7 +24,7 @@ import catLounge from "../assets/cat-lounge.png";
 <style>
   .about_container {
     display: grid;
-    grid-template-columns: 1.15fr .85fr;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
     gap: 44px;
     align-items: start;
   }
@@ -58,5 +58,17 @@ import catLounge from "../assets/cat-lounge.png";
     color: var(--color-subtle);
     text-align: center;
     margin-top: 6px;
+  }
+  @media (max-width: 700px) {
+    .about_container {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    .about_image_container {
+      width: 100%;
+      max-width: 420px;
+      justify-self: center;
+    }
   }
 </style>

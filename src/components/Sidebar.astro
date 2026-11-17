@@ -5,7 +5,7 @@ import catClack from "../assets/cat-clack.png";
 
 <aside class="sidebar">
   <div>
-    <p class="sidebar__name">Vicky<br />Suarez</p>
+    <p class="sidebar__name">Vicky<span class="sidebar__surname"> Suarez</span></p>
     <p class="sidebar__role">
       frontend <span class="symbol">&amp;</span> craft
     </p>
@@ -61,6 +61,9 @@ import catClack from "../assets/cat-clack.png";
     font-size: 14.5px;
   }
   .sidebar__nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
     padding: 7px 10px;
     color: var(--color-ink);
     border-radius: 6px;
@@ -93,19 +96,43 @@ import catClack from "../assets/cat-clack.png";
     font-size: 10px;
     line-height: 1.7;
   }
-  @media (max-width: 800px) {
+  .sidebar__surname {
+    display: block;
+  }
+  @media (max-width: 1024px) {
     .sidebar {
       position: static;
       height: auto;
-      padding: 24px;
+      gap: 18px;
+      padding: 24px 32px;
       border-right: 0;
       border-bottom: 1.5px solid var(--border-color);
-      }
-      .sidebar__nav {
-        flex-flow: row wrap;
-      }
-      .sidebar__companions {
-        display: none;
-      }
     }
+    .sidebar__surname {
+      display: inline;
+    }
+    .sidebar__nav {
+      flex-flow: row wrap;
+    }
+    .sidebar__companions {
+      display: none;
+    }
+  }
+  @media (max-width: 640px) {
+    .sidebar {
+      padding: 20px;
+    }
+    .sidebar__name {
+      margin-top: 0;
+      font-size: 26px;
+    }
+    .sidebar__role {
+      font-size: 28px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar__illustration {
+      transition: none;
+    }
+  }
 </style>

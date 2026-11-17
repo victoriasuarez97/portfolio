@@ -74,7 +74,14 @@ a:hover {
 	background-image: linear-gradient(#22301a0d 1px, transparent 1px);
 	background-size: 100% 32px;
 	display: grid;
-	grid-template-columns: 290px 1fr;
+	grid-template-columns: 290px minmax(0, 1fr);
+}
+
+.portfolio__main {
+	width: 100%;
+	max-width: 940px;
+	min-width: 0;
+	padding: 0 60px 120px;
 }
 
 .symbol {
@@ -121,8 +128,33 @@ a:hover {
 	text-wrap: pretty;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1024px) {
 	.portfolio {
 		display: block;
+	}
+
+	.portfolio__main {
+		margin-inline: auto;
+		padding-inline: 32px;
+	}
+}
+
+@media (max-width: 640px) {
+	.portfolio__main {
+		padding: 0 20px 64px;
+	}
+
+	.section {
+		--section-spacing: 20px 0 64px;
+	}
+
+	.section-note {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
 	}
 }
