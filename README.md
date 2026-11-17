@@ -1,14 +1,11 @@
 <div align="center">
-  <img src="src/assets/cat-clack.png" alt="An illustration of my cats, Renton and Zeldita" width="200" />
-
-  <h1>Vicky Suarez · Frontend & craft</h1>
+  <h1>Vicky Suarez · Frontend & craft 🐈💻</h1>
 
   <p><em>I write code the way I used to draw: layer by layer.</em></p>
 
   <p>
     <a href="https://www.linkedin.com/in/victoria-suarez1997/">LinkedIn</a> ·
-    <a href="mailto:victoriasuarez97@gmail.com">Say hi</a> ·
-    <a href="https://github.com/victoriasuarez97">GitHub</a>
+    <a href="mailto:victoriasuarez97@gmail.com">Say hi</a>
   </p>
 </div>
 
@@ -86,4 +83,4 @@ On Windows, if PowerShell blocks `pnpm.ps1`, use `pnpm.cmd` in place of `pnpm`.
 
 ---
 
-Built in Buenos Aires. Supervised by Renton & Zeldita.
+Built in Buenos Aires with ❤️
