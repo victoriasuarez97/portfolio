@@ -1,46 +1,89 @@
-# Astro Starter Kit: Basics
+<div align="center">
+  <img src="src/assets/cat-clack.png" alt="An illustration of my cats, Renton and Zeldita" width="200" />
+
+  <h1>Vicky Suarez · Frontend & craft</h1>
+
+  <p><em>I write code the way I used to draw: layer by layer.</em></p>
+
+  <p>
+    <a href="https://www.linkedin.com/in/victoria-suarez1997/">LinkedIn</a> ·
+    <a href="mailto:victoriasuarez97@gmail.com">Say hi</a> ·
+    <a href="https://github.com/victoriasuarez97">GitHub</a>
+  </p>
+</div>
+
+My personal portfolio, built with Astro, TypeScript, and CSS. A little about the work I do, the things I make, and the illustration background that still shapes how I build interfaces.
+
+I'm a frontend engineer based in Buenos Aires. My work spans React and TypeScript applications, design systems, UI quality, and AI experiments. This site brings those interests together with handwritten type, illustrated details, and two cats who take their supervisory roles very seriously.
+
+## Inside the portfolio
+
+- **Path** — my move from illustration and tattooing into software engineering, and the work along the way.
+- **Playground** — side projects and experiments, including an AI chatbot and the Song wall.
+- **About** — the person behind the components, plus a sleeping cat.
+- **Song wall** — paste a Spotify track, add a note, and leave something to listen to while I work.
+- **Say hi** — links for hiring, freelance work, or a conversation about fonts.
+
+## Built with
+
+| Tool                        | How it's used                                       |
+| --------------------------- | --------------------------------------------------- |
+| Astro 7                     | Components, layouts, and static HTML generation     |
+| TypeScript                  | Portfolio data and browser interactions             |
+| CSS                         | Custom properties, component styles, and animations |
+| Astro assets + Sharp        | Image optimization at build time                    |
+| Spotify oEmbed + IFrame API | Track metadata and embedded playback                |
+
+The visual identity combines a paper palette, illustrated assets, and a local handwritten font. The site uses semantic sections, labeled form controls, and reduced-motion styles for selected animations.
+
+### A note about the Song wall
+
+The wall is currently a browser-side experiment. Tracks and messages are saved in `localStorage` for that browser and origin; submissions are not sent to me or shared between visitors. Moving to a different domain also starts a separate local collection. An integrated backend with persistent storage is coming soon to make the wall shared across visitors.
+
+Spotify metadata and playback depend on Spotify's public services. The portfolio itself runs without API keys or environment variables.
+
+## Run locally
+
+Requires **Node.js 22.12.0 or newer** and **pnpm**.
 
 ```sh
-pnpm create astro@latest -- --template basics
+git clone https://github.com/victoriasuarez97/portfolio.git
+cd portfolio
+pnpm install --frozen-lockfile
+pnpm dev --background
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The default development URL is `http://localhost:4321`. Manage the background server from the project root:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```sh
+pnpm astro dev status
+pnpm astro dev logs
+pnpm astro dev stop
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Build and preview the production site:
 
-## 🧞 Commands
+```sh
+pnpm build
+pnpm preview
+```
 
-All commands are run from the root of the project, from a terminal:
+On Windows, if PowerShell blocks `pnpm.ps1`, use `pnpm.cmd` in place of `pnpm`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Find your way around
 
-## 👀 Want to learn more?
+| Location                                                       | Contents                                        |
+| -------------------------------------------------------------- | ----------------------------------------------- |
+| [`src/pages/index.astro`](src/pages/index.astro)               | Portfolio entry point and section order         |
+| [`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro) | Document structure, page title, and description |
+| [`src/components/`](src/components/)                           | Portfolio sections and navigation               |
+| [`src/data/experience.ts`](src/data/experience.ts)             | Career history                                  |
+| [`src/data/projects.ts`](src/data/projects.ts)                 | Playground projects                             |
+| [`src/scripts/songwall.ts`](src/scripts/songwall.ts)           | Song wall storage, metadata, and player logic   |
+| [`src/styles/`](src/styles/)                                   | Global styles, fonts, and design tokens         |
+| [`src/assets/`](src/assets/)                                   | Illustrations, tool logos, and local fonts      |
+| [`public/`](public/)                                           | Static files copied directly to the build       |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+---
+
+Built in Buenos Aires. Supervised by Renton & Zeldita.
