@@ -29,7 +29,7 @@ export const experience = [
 		],
 	},
 	{
-		period: "Jan 2021 – Jun 2024",
+		period: "Jun 2021 – Jun 2024",
 		location: "Hybrid · BA",
 		role: "Jr → Ssr Software Engineer",
 		company: "Santander Tecnología",
