@@ -21,20 +21,20 @@ const { songs = [] } = Astro.props;
   </header>
 
   <p class="section-description">
-    Leave me something to listen to while I work. Paste a Spotify link,
-    add a line about why, and it goes up on the wall.
+    Paste a Spotify track link, add a note if you like, and make a little soundtrack.
+    Your songs stay in this browser.
   </p>
-  <p class="song-wall__aside-note" aria-hidden="true">psst — this bit draws back ↘</p>
+  <p class="song-wall__aside-note" aria-hidden="true">psst, this bit draws back ↘</p>
 
   <form class="song-form" id="song-form">
     <div class="song-form__row">
-      <label class="sr-only" for="spotify-link">Spotify track URL</label>
+      <label class="sr-only" for="spotify-link">Spotify track link (required)</label>
       <input id="spotify-link" name="spotifyLink" type="url" placeholder="https://open.spotify.com/track/…" class="song-input song-input--mono" required />
-      <label class="sr-only" for="submitted-by">Your name</label>
-      <input id="submitted-by" name="submittedBy" type="text" maxlength="28" placeholder="your name (or stay a mystery)" class="song-input" />
+      <label class="sr-only" for="submitted-by">Your name (optional)</label>
+      <input id="submitted-by" name="submittedBy" type="text" maxlength="28" placeholder="your name (optional)" class="song-input" />
     </div>
-    <label class="sr-only" for="song-message">Why are you recommending this song?</label>
-    <input id="song-message" name="message" type="text" maxlength="140" placeholder="why this one? (140 characters, be dramatic)" class="song-input" />
+    <label class="sr-only" for="song-message">A note about this song (optional, up to 140 characters)</label>
+    <input id="song-message" name="message" type="text" maxlength="140" placeholder="why this one? (140 max)" class="song-input" />
     <div class="song-form__footer">
       <button type="submit" class="song-submit">Pin it to the wall</button>
       <p class="song-form__status" id="song-form-status" aria-live="polite"></p>
@@ -69,12 +69,12 @@ const { songs = [] } = Astro.props;
     </div>
 
     <aside class="song-wall__playlist" aria-label="Songs pinned to the wall">
-      <p class="song-wall__side-title">Side A — the wall so far</p>
+      <p class="song-wall__side-title">Side A: the wall so far</p>
       <ol class="song-wall__track-list" data-track-list></ol>
     </aside>
   </div>
 
-  <p class="song-wall__empty" data-song-empty>The wall is waiting for its first song.</p>
+  <p class="song-wall__empty" data-song-empty>Your wall is waiting for its first song. Pick a track to get started.</p>
 </section>
 
 <script src="../scripts/songwall.ts"></script>

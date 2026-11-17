@@ -2,14 +2,14 @@ export const projects = [
 	{
 		title: "ReflexAI chatbot",
 		description:
-			"A chatbot challenge I had too much fun with: prompt plumbing, telling the LLM to act like a cat, streamed answers, and a simple UI to just have fun and make conversation",
+			"A chatbot challenge I had too much fun with. I worked on prompts, streamed responses and a simple chat UI. And yes, I told the model to act like a cat.",
 		badge: "my favourite",
 		url: "https://github.com/victoriasuarez97/reflexai-chatbot-challenge",
 	},
 	{
 		title: "This song wall",
 		description:
-			"The thing you are about to use: paste a Spotify link, get a card with a real cover art from the public endpoint.",
+			"Pin a Spotify track, add a note and play it here. Your collection stays in this browser.",
 		badge: "experiment",
 		url: "#songs",
 	},

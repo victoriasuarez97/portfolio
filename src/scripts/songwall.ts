@@ -219,17 +219,17 @@ form?.addEventListener("submit", async (event) => {
 		)
 			throw new Error();
 	} catch {
-		songStatus.textContent = "Paste a valid Spotify track link.";
+		songStatus.textContent = "Use a Spotify track link. Copy one from the song's Share menu.";
 		return;
 	}
 	if (allSongs.some((song) => song.link === spotifyUrl.href)) {
-		songStatus.textContent = "That song is already on the wall.";
+		songStatus.textContent = "That song is already on your wall. Pick another track.";
 		return;
 	}
 
 	const submit = form.querySelector<HTMLButtonElement>(".song-submit");
 	if (submit) submit.disabled = true;
-	songStatus.textContent = "Pinning it…";
+	songStatus.textContent = "Getting your track…";
 	let title = "Spotify track";
 	let artist = "Spotify";
 	let cover = "";
@@ -262,9 +262,9 @@ form?.addEventListener("submit", async (event) => {
 		selectedId = song.id;
 		renderWall();
 		form.reset();
-		songStatus.textContent = "pinned! thank you <3";
+		songStatus.textContent = "Pinned in this browser. Happy listening <3";
 	} catch {
-		songStatus.textContent = "I couldn't save it in this browser.";
+		songStatus.textContent = "Couldn't save this song. Check that your browser allows site storage, then try again.";
 	} finally {
 		if (submit) submit.disabled = false;
 	}
