@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import reactLogo from "../assets/react_logo.png";
 import reactLogoHighlights from "../assets/react_logo_highlights.png";
 import nextLogo from "../assets/nextjs_logo.png";
@@ -13,9 +14,9 @@ import aiLogoHighlights from "../assets/ai_logo_highlights.png";
 const tools = [
   { name: "React", logo: reactLogo, highlight: reactLogoHighlights, size: "large" },
   { name: "Next.js", logo: nextLogo, highlight: nextLogoHighlights, size: "large" },
-  { name: "Storybook", logo: storybookLogo, highlight: storybookLogoHighlights },
-  { name: "Figma", logo: figmaLogo, highlight: figmaLogoHighlights },
-  { name: "AI", logo: aiLogo, highlight: aiLogoHighlights },
+  { name: "Storybook", logo: storybookLogo, highlight: storybookLogoHighlights, size: "large" },
+  { name: "Figma", logo: figmaLogo, highlight: figmaLogoHighlights, size: "large" },
+  { name: "AI", logo: aiLogo, highlight: aiLogoHighlights, size: "large" },
 ];
 ---
 
@@ -40,16 +41,16 @@ const tools = [
     Six years as an illustrator and tattooer, then seven building web apps. Now I do both at once: I ship React and TypeScript, audit the UI nobody else is auditing, build tools with AI, and sketch the thing before I build it.
   </p>
 
-  <div class="hero__tools" data-reveal="" aria-label="Tools I work with">
+  <ul class="hero__tools" data-reveal="" role="list" aria-label="Tools I work with">
     {tools.map((tool) => (
-      <div class:list={["hero__tool", { "hero__tool--large": tool.size === "large" }]} tabindex="0">
+      <li class:list={["hero__tool", { "hero__tool--large": tool.size === "large" }]}>
         <div class="hero__tool-image">
-          <img class="hero__tool-logo hero__tool-logo--default" src={tool.logo.src} alt="" />
-          <img class="hero__tool-logo hero__tool-logo--highlight" src={tool.highlight.src} alt="" />
+          <Image class="hero__tool-logo hero__tool-logo--default" src={tool.logo} alt={tool.name} width={120} densities={[1, 2]} loading="eager" />
+          <Image class="hero__tool-logo hero__tool-logo--highlight" src={tool.highlight} alt="" width={120} densities={[1, 2]} />
         </div>
-      </div>
+      </li>
     ))}
-  </div>
+  </ul>
 
   <div class="hero__actions" data-reveal="">
     <a href="#work" class="hero__button hero__button--primary">See the work</a>
@@ -158,14 +159,16 @@ const tools = [
         display: grid;
         grid-template-columns: repeat(5, minmax(72px, 1fr));
         gap: 40px;
-        margin-top: 30px;
-        width: 700px;
+        margin: 30px 0 0;
+        padding: 0;
+        width: min(700px, 100%);
+        list-style: none;
     }
     .hero__tool {
         min-width: 0;
+        padding-bottom: 48px;
         color: var(--color-ink);
         text-align: center;
-        outline: none;
         cursor: default;
     }
     .hero__tool-image {
@@ -192,26 +195,12 @@ const tools = [
         transform: scale(0.96);
         filter: brightness(0) saturate(100%) invert(45%) sepia(95%) saturate(2974%) hue-rotate(359deg) brightness(96%) contrast(92%);
     }
-    .hero__tool:hover .hero__tool-logo--default,
-    .hero__tool:focus-visible .hero__tool-logo--default {
+    .hero__tool:hover .hero__tool-logo--default {
         opacity: 0;
     }
-    .hero__tool:hover .hero__tool-logo--highlight,
-    .hero__tool:focus-visible .hero__tool-logo--highlight {
+    .hero__tool:hover .hero__tool-logo--highlight {
         opacity: 1;
         transform: scale(1.08);
-    }
-    .hero__tool span {
-        display: block;
-        margin-top: 5px;
-        font-family: var(--font-hand);
-        font-size: 17px;
-        line-height: 1;
-        transition: color 180ms ease;
-    }
-    .hero__tool:hover span,
-    .hero__tool:focus-visible span {
-        color: var(--color-orange);
     }
     .hero__actions {
         display: flex;
@@ -259,16 +248,22 @@ const tools = [
         }
         .hero__tools {
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px 10px;
+            gap: 52px 10px;
         }
         .hero__tool-image {
             height: 70px;
+        }
+        .hero__tool {
+            padding-bottom: 35px;
         }
         .hero__button {
             text-align: center;
         }
     }
     @media (prefers-reduced-motion: reduce) {
+        .hero__tool-logo {
+            transition: none;
+        }
         .hero__highlight-text {
             clip-path: none;
             animation: none;

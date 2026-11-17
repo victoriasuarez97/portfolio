@@ -1,5 +1,6 @@
 ---
-import catLounge from "../assets/cat-lounge.png"
+import { Image } from "astro:assets";
+import catLounge from "../assets/cat-lounge.png";
 ---
 
 <section id="about" class="section">
@@ -14,7 +15,7 @@ import catLounge from "../assets/cat-lounge.png"
             <p style="about_description">Today I lead admin tooling for a US retail platform, keep a Storybook library honest on a team with no designer, and build small AI experiments because they're fun.</p>
         </div>
         <div class="about_image_container">
-            <img src={catLounge.src} alt="Zeldita taking a nap" style="width:100%;display:block">
+            <Image src={catLounge} alt="Zeldita taking a nap" style="width:100%;height:auto;display:block" width={420} densities={[1, 2]} />
             <p class="about_image_text">zeldita haciendo la siesta, 2022</p>
         </div>
     </div>

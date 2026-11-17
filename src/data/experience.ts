@@ -7,9 +7,11 @@ export const experience = [
 		description:
 			"I joined Swiftly working on the Admin app used to configure retailer apps. These days I lead the centralized Admin experience — one big app sitting on top of a very big monolith with a lot of enterprise clients and moving parts.",
 		bullets: [
-			"Own frontend UI/UX quality across the platform: I review new features, flag what feels off, prioritize fixes, and usually work it out directly with the engineers building them.",
+			"Built and integrated an AI-powered chat experience into the Admin platform, connecting Claude with Databricks through MCP to help retailers explore their data.",
+			"Designed and built a rule-based engine that fixes visual issues in promotional banners caused by dynamic content — resizing and repositioning elements to prevent overlaps, clipped text, and broken layouts. Turns out, visual problem-solving can be an algorithm too.",
+			"Keep an eye on UI/UX quality across the platform. I review new features, catch visual inconsistencies, and work with engineers to make things feel right.",
 			"Built and maintain our Storybook component library and keep it aligned with the design system — especially useful on a team without a dedicated design function.",
-			"Built a Claude-based automation that the engineering team now uses to keep frontend work more consistent and make reviews a little less painful.",
+			"Developed a Claude skill adopted by the engineering team to standardize frontend development practices and streamline code reviews.",
 			"Set up the frontend testing practice with Vitest and React Testing Library.",
 			"Write epics and acceptance criteria, prioritize work, and negotiate scope with stakeholders — which, apparently, is also part of being an engineer.",
 		],
@@ -35,7 +37,7 @@ export const experience = [
 			"Worked on Santander's broker app and its internal design system. This is where I got very into reusable components, frontend architecture, and caring probably too much about tiny UI details.",
 		bullets: [
 			"Built features in a micro-frontend architecture with Single SPA + React, working closely with UX and Business.",
-			"Built and published reusable components for Flame UI, Santander's internal design system, used by several product teams and documented in Storybook.",
+			"Built and published reusable components for Santander's internal design system, used by several product teams and documented in Storybook.",
 			"Worked with TDD before I had enough experience to complain about TDD.",
 		],
 		technologies: ["React", "TypeScript", "Single SPA", "TDD"],
@@ -44,12 +46,12 @@ export const experience = [
 		period: "Sep 2019 — Jun 2021",
 		location: "Hybrid · BA",
 		role: "Full Stack → Frontend Dev",
-		company: "Accenture · AdCap",
+		company: "Accenture → AdCap",
 		description:
-			"My first real dev job. I started full stack with Angular, C# .NET Core and SQL Server, then slowly made my way toward the frontend.",
+			"My first years as a developer, across two companies and two very different roles. I started at Accenture working full stack with Angular, C# .NET Core, and SQL Server, then moved to AdCap, where I focused on frontend development with React.",
 		bullets: [
-			"Built a trading dashboard with React, Redux and Chart.js.",
-			"Worked across frontend and backend before deciding that CSS bugs were, somehow, the kind of problem I preferred having.",
+			"Accenture: Worked across frontend and backend, learning how things fit together beyond the browser.",
+			"AdCap: Built a trading dashboard using React, Redux, and Chart.js. Somewhere along the way, I realized CSS bugs were, somehow, the kind of problem I preferred having.",
 		],
 		technologies: [
 			"Angular",
@@ -66,10 +68,11 @@ export const experience = [
 		role: "Illustrator & tattoo artist",
 		company: "self-employed",
 		description:
-			"Before software, I spent six years doing illustration, prints and tattoos. Turns out client feedback, revisions and impossible deadlines prepared me suspiciously well for tech.",
+			"Before software, I spent six years doing illustration, prints and tattoos.",
 		bullets: [
 			"Ran the whole thing myself: briefs, pricing, revisions, deadlines, clients and the occasional creative crisis.",
-			"Learned composition, colour and restraint — probably the reason I still notice the 4px nobody else notices.",
+			"Learned composition, colour and restraint.",
+			"Probably overshared a little too much with my illustrations: everything I drew was about my life.",
 		],
 		technologies: ["illustration", "tattoo"],
 	},
