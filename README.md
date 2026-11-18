@@ -30,17 +30,17 @@ I'm a frontend engineer based in Buenos Aires. My work spans React and TypeScrip
 | CSS                         | Custom properties, component styles, and animations |
 | Astro assets + Sharp        | Image optimization at build time                    |
 | Spotify oEmbed + IFrame API | Track metadata and embedded playback                |
-| Supabase (optional)        | Shared Song wall storage and validated submissions |
+| Supabase                   | Shared Song wall storage and validated submissions |
 
 The visual identity combines a paper palette, illustrated assets, and a local handwritten font. The site uses semantic sections, labeled form controls, and reduced-motion styles for selected animations.
 
 ### A note about the Song wall
 
-Without Supabase configuration, the wall is a browser-side experiment. Tracks and messages are saved in `localStorage` for that browser and origin; submissions are not sent to me or shared between visitors. Moving to a different domain also starts a separate local collection.
+The live Song wall saves songs, names, and notes in Supabase, so everyone can add to the same little soundtrack. Submissions go through an Edge Function that validates Spotify track links and fetches their metadata before saving them. I can hide songs from the Supabase dashboard.
 
-The optional Supabase integration is behind `PUBLIC_SONGWALL_SUPABASE_ENABLED`, which is off by default. When explicitly enabled and configured, it loads the latest 100 public songs and saves new submissions for everyone to see. Songs appear immediately; I can hide them from the Supabase dashboard. Existing browser-local songs stay on that device and are not automatically published.
+The wall loads the latest 100 visible songs when you open the page. Your new song appears as soon as it's pinned; other visitors see it after refreshing.
 
-Spotify metadata and playback depend on Spotify's public services. The browser-local portfolio runs without API keys or environment variables.
+For local development, shared storage requires `PUBLIC_SONGWALL_SUPABASE_ENABLED=true`, `PUBLIC_SUPABASE_URL`, and `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Without that configuration, songs stay in that browser's `localStorage`. Existing browser-local songs are not uploaded automatically. Spotify metadata and playback depend on Spotify's public services.
 
 ## Run locally
 
