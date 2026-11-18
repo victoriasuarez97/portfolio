@@ -30,14 +30,17 @@ I'm a frontend engineer based in Buenos Aires. My work spans React and TypeScrip
 | CSS                         | Custom properties, component styles, and animations |
 | Astro assets + Sharp        | Image optimization at build time                    |
 | Spotify oEmbed + IFrame API | Track metadata and embedded playback                |
+| Supabase (optional)        | Shared Song wall storage and validated submissions |
 
 The visual identity combines a paper palette, illustrated assets, and a local handwritten font. The site uses semantic sections, labeled form controls, and reduced-motion styles for selected animations.
 
 ### A note about the Song wall
 
-The wall is currently a browser-side experiment. Tracks and messages are saved in `localStorage` for that browser and origin; submissions are not sent to me or shared between visitors. Moving to a different domain also starts a separate local collection. An integrated backend with persistent storage is coming soon to make the wall shared across visitors.
+Without Supabase configuration, the wall is a browser-side experiment. Tracks and messages are saved in `localStorage` for that browser and origin; submissions are not sent to me or shared between visitors. Moving to a different domain also starts a separate local collection.
 
-Spotify metadata and playback depend on Spotify's public services. The portfolio itself runs without API keys or environment variables.
+The optional Supabase integration is behind `PUBLIC_SONGWALL_SUPABASE_ENABLED`, which is off by default. When explicitly enabled and configured, it loads the latest 100 public songs and saves new submissions for everyone to see. Songs appear immediately; I can hide them from the Supabase dashboard. Existing browser-local songs stay on that device and are not automatically published.
+
+Spotify metadata and playback depend on Spotify's public services. The browser-local portfolio runs without API keys or environment variables.
 
 ## Run locally
 
@@ -64,6 +67,8 @@ Build and preview the production site:
 pnpm build
 pnpm preview
 ```
+
+Run the submission endpoint tests with `pnpm test`.
 
 On Windows, if PowerShell blocks `pnpm.ps1`, use `pnpm.cmd` in place of `pnpm`.
 

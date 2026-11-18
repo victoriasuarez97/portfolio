@@ -21,6 +21,11 @@ pnpm-debug.log*
 # local deployment settings
 .vercel/
 
+# Supabase CLI state
+supabase/.temp/
+supabase/.branches/
+/supabase/README.md
+
 # macOS-specific files
 .DS_Store
 

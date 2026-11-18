@@ -1,0 +1,5 @@
+project_id = "portfolio-songwall"
+
+# Visitors can submit without an account. Validation and write access live here.
+[functions.submit-song]
+verify_jwt = false

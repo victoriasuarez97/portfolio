@@ -11,6 +11,10 @@ interface Song {
 
 interface Props { songs?: Song[]; }
 const { songs = [] } = Astro.props;
+const sharedWall = Boolean(
+  import.meta.env.PUBLIC_SONGWALL_SUPABASE_ENABLED === "true" &&
+  import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+);
 ---
 
 <section id="songs" class="section song-wall" data-initial-songs={JSON.stringify(songs)}>
@@ -22,7 +26,7 @@ const { songs = [] } = Astro.props;
 
   <p class="section-description">
     Paste a Spotify track link, add a note if you like, and make a little soundtrack.
-    Your songs stay in this browser.
+    {sharedWall ? "Your song and note will be public on the wall." : "Your songs stay in this browser."}
   </p>
   <p class="song-wall__aside-note" aria-hidden="true">psst, this bit draws back ↘</p>
 

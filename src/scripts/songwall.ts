@@ -8,6 +8,12 @@ interface StoredSong {
 	msg: string;
 }
 
+const isStoredSong = (value: unknown): value is StoredSong =>
+	typeof value === "object" && value !== null &&
+	["id", "link", "cover", "title", "artist", "who", "msg"].every(
+		(key) => typeof (value as Record<string, unknown>)[key] === "string",
+	);
+
 interface SpotifyController {
 	addListener: (
 		event: "playback_update",
@@ -25,6 +31,12 @@ interface SpotifyIFrameApi {
 }
 
 const STORAGE_KEY = "portfolio-song-wall";
+const supabaseUrl = (import.meta.env.PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
+const sharedWall = Boolean(
+	import.meta.env.PUBLIC_SONGWALL_SUPABASE_ENABLED === "true" && supabaseUrl && supabaseKey,
+);
+const apiHeaders = { apikey: supabaseKey };
 const root = document.querySelector<HTMLElement>(".song-wall");
 const form = root?.querySelector<HTMLFormElement>("#song-form");
 const songStatus = root?.querySelector<HTMLElement>("#song-form-status");
@@ -78,8 +90,8 @@ const initialSongs = (() => {
 	}
 })();
 
-const allSongs = [...readSongs()].reverse();
-initialSongs.forEach((song) => {
+const allSongs: StoredSong[] = sharedWall ? [] : [...readSongs()].reverse();
+if (!sharedWall) initialSongs.forEach((song) => {
 	if (!allSongs.some((saved) => saved.link === song.link)) {
 		allSongs.push({ ...song, id: song.id ?? crypto.randomUUID() });
 	}
@@ -89,6 +101,16 @@ let selectedId = allSongs[0]?.id;
 const getTrackId = (spotifyUrl: string) => {
 	try {
 		return new URL(spotifyUrl).pathname.split("/")[2] ?? "";
+	} catch {
+		return "";
+	}
+};
+
+const getSharedTrackId = (spotifyUrl: string) => {
+	try {
+		const url = new URL(spotifyUrl);
+		if (url.protocol !== "https:" || url.hostname !== "open.spotify.com" || url.port || url.username || url.password) return "";
+		return url.pathname.match(/^\/(?:intl-[a-z]{2}\/)?track\/([A-Za-z0-9]{22})\/?$/)?.[1] ?? "";
 	} catch {
 		return "";
 	}
@@ -200,9 +222,90 @@ const renderWall = () => {
 
 renderWall();
 
+const loadSharedWall = async () => {
+	if (!sharedWall || !root) return;
+	if (empty) empty.textContent = "Finding the wall's soundtrack…";
+	root.setAttribute("aria-busy", "true");
+	try {
+		const response = await fetch(
+			`${supabaseUrl}/rest/v1/song_wall?select=id,link,cover,title,artist,who,msg&order=created_at.desc,id.desc&limit=100`,
+			{ headers: apiHeaders, cache: "no-store", signal: AbortSignal.timeout(10000) },
+		);
+		if (!response.ok) throw new Error("Couldn't load the wall");
+		const songs = await response.json();
+		if (!Array.isArray(songs) || !songs.every(isStoredSong)) throw new Error("Invalid wall response");
+		// A submission may finish while the initial request is still in flight.
+		const knownIds = new Set(allSongs.map((song) => song.id));
+		for (const song of songs) {
+			if (!knownIds.has(song.id)) {
+				allSongs.push(song);
+				knownIds.add(song.id);
+			}
+		}
+		if (empty) empty.textContent = "Your wall is waiting for its first song. Pick a track to get started.";
+		renderWall();
+	} catch {
+		if (empty) empty.textContent = "Couldn't load the wall right now. Refresh the page to try again.";
+		if (songStatus) songStatus.textContent = "The wall couldn't load. You can still try pinning a song.";
+	} finally {
+		root.removeAttribute("aria-busy");
+	}
+};
+void loadSharedWall();
+
+let isSubmitting = false;
+const submitSharedSong = async (form: HTMLFormElement, status: HTMLElement) => {
+	if (isSubmitting) return;
+	const data = new FormData(form);
+	const trackId = getSharedTrackId(String(data.get("spotifyLink") ?? "").trim());
+	if (!trackId) {
+		status.textContent = "Use a Spotify track link. Copy one from the song's Share menu.";
+		return;
+	}
+	if (allSongs.some((song) => getSharedTrackId(song.link) === trackId)) {
+		status.textContent = "That song is already on the wall. Pick another track.";
+		return;
+	}
+	const who = String(data.get("submittedBy") ?? "").trim() || "Anonymous";
+	const msg = String(data.get("message") ?? "").trim() || "No explanation. Just trust me.";
+	const submit = form.querySelector<HTMLButtonElement>(".song-submit");
+	isSubmitting = true;
+	if (submit) submit.disabled = true;
+	status.textContent = "Getting your track…";
+	try {
+		const response = await fetch(`${supabaseUrl}/functions/v1/submit-song`, {
+			method: "POST",
+			headers: { ...apiHeaders, "Content-Type": "application/json" },
+			body: JSON.stringify({ link: `https://open.spotify.com/track/${trackId}`, who, msg }),
+			signal: AbortSignal.timeout(30000),
+		});
+		const result = await response.json();
+		if (!response.ok) {
+			status.textContent = typeof result.error === "string" ? result.error : "Couldn't pin your song right now. Please try again.";
+			return;
+		}
+		const song: unknown = result.song;
+		if (!isStoredSong(song)) throw new Error("Invalid song response");
+		allSongs.unshift(song);
+		selectedId = song.id;
+		renderWall();
+		form.reset();
+		status.textContent = "Pinned to the wall. Happy listening <3";
+	} catch {
+		status.textContent = "Couldn't confirm your song was pinned. Refresh the wall before trying again.";
+	} finally {
+		isSubmitting = false;
+		if (submit) submit.disabled = false;
+	}
+};
+
 form?.addEventListener("submit", async (event) => {
 	event.preventDefault();
 	if (!form || !songStatus) return;
+	if (sharedWall) {
+		await submitSharedSong(form, songStatus);
+		return;
+	}
 	const data = new FormData(form);
 	const link = String(data.get("spotifyLink") ?? "").trim();
 	const who = String(data.get("submittedBy") ?? "").trim() || "Anonymous";
